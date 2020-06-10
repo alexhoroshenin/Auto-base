@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <style>
+   .nopadding {
+    padding-left: 0px;
+   }
+
+  </style>
+    <title>Справочник автомобилей</title>
+</head>
+
+<body>
+<div class="container">
+    <div class="col-md-auto">
+        <h1>Справочник автомобилей</h1>
+        <br>
+        {% if request.GET.add_count %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Вы успешно добавили рандомные записи в справочник!</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        {% elif request.GET.error %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>{{ request.GET.error }}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% elif request.GET.message %}
+
+        <div class="alert alert-primary alert-dismissible fade show" role="alert">
+            <strong>{{ request.GET.message }}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        {% endif %}
+
+        <br>
+        <p>Авто в справочнике: <strong>{{ count_auto }}</strong></p>
+        <p>Добавьте тестовый набор данных в справочник:</p>
+
+        <form class="d-block" action="{% url 'index' %}" method="post">
+            {% csrf_token %}
+
+            <div class="col-md-4 mb-3 nopadding">
+                <input type="text" class="form-control" id="validationServer01" name="set_count"
+                       placeholder="Введите количество:"
+                       required>
+            </div>
+
+            <button class="btn btn-primary" type="submit"> Добавить записи</button>
+
+        </form>
+
+        <br>
+        <p>Или удалите все данные из справочника:</p>
+        <form class="d-block" action="{% url 'delete' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Удалить все записи</button>
+        </form>
+
+        <br><br>
+
+        <h2>Описание разработки</h2>
+
+        <br><br>
+
+        <table class="table table-striped table-bordered">
+
+            <tbody>
+            <tr>
+                <td><strong>Разработчик (junior)</strong></td>
+                <td>Алексей Хорошенин</td>
+            </tr>
+            <tr>
+                <td><strong>Функционал приложения</strong></td>
+                <td>- Вывод списка с возможность сортировки<br>
+                    - Вывод отдельной записи<br>
+                    - Добавление записи<br>
+                    - Удаленние записи<br>
+                    - Вывод статистики<br>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Язык</strong></td>
+                <td>Python</td>
+            </tr>
+            <tr>
+                <td><strong>Фреймворк веб-приложения</strong></td>
+                <td>Django</td>
+            </tr>
+            <tr>
+                <td><strong>Фреймворк REST API</strong></td>
+                <td>Django REST framework</td>
+            </tr>
+            <tr>
+                <td><strong>База данных</strong></td>
+                <td>PostgreSQL</td>
+            </tr>
+            <tr>
+                <td><strong>Способы тестирования</strong></td>
+                <td>unittest</td>
+            </tr>
+            <tr>
+                <td><strong>Frontend</strong></td>
+                <td>bootstrap</td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
+        <h2>Методы API для работы со справочником</h2>
+        <br>
+        <h3>Общая информация</h3>
+        <p>В справочнике хранится информация об автомобилях.<br>
+            У каждого автомобиля есть поля с информацией:</p>
+        <strong>car_number</strong> - Номер автомобиля<br>
+        <strong>vin_code</strong> - VIN-код. Уникальный номер для каждого авто. <strong>Поле обязательное.</strong><br>
+        <strong>color</strong> - Цвет<br>
+        <strong>mark</strong> - Марка<br>
+        <strong>year_of_issue</strong> - Год выпуска<br>
+        <strong>creating_date</strong> - Дата создания записи в справочнике. Поле заполняется автоматически.
+        <br><br>
+
+        <h3>Методы работы с API </h3>
+        <br>
+        <h4>Вывод списка</h4>
+        <br>
+        <p>Чтобы получить список записей справочника сформируйте пустой <strong>GET-запрос по адресу:
+            http//:host_ip/api/ </strong></p>
+        <p>Или перейдите по ссылке <strong><a href="/api/">/api/</a></strong></p>
+
+        <strong><p>Ответ сервера</strong></p>
+        <p class="p-3 mb-2 bg-success text-white">200 OK</p>
+        <pre><samp>
+        {
+            "auto": [
+                    {
+            "car_number": "DB808T",
+            "vin_code": "BKO724693041YE",
+            "color": "['зеленый']",
+            "mark": "['Tesla']",
+            "year_of_issue": 1993
+        },
+        {
+            "car_number": "MO405X",
+            "vin_code": "YCM731026813YD",
+            "color": "['желтый']",
+            "mark": "['Peugeot']",
+            "year_of_issue": 1994
+        },
+        .............
+        </samp></pre>
+        <h5>Сортировка списка</h5>
+
+        <p>Для сортировки списка укажите параметр GET-запроса, по которому нужно сортировать данные.</p>
+
+        <p>http://host_ip/api/<strong>?order_by=parametr_name</strong></p>
+
+        <p>Сортировка доступна по всем параметрам: car_number, vin_code, color, mark, year_of_issue, creating_date.</p>
+
+        <p>Пример запроса с сортировкой по дате выпуска:</p>
+        <p><strong>http//:host_ip/api/?order_by=year_of_issue</strong></p>
+
+        <p>Обратите внимание, если параметр указан неверно, то сортировка произведена не будет.</p>
+        <br>
+        <h4>2.2 Вывод информации по конкретному автомобилю</h4>
+
+        <p>Чтобы получить информацию по конкретному автомобилю, укажите его vin_code в url-адресе</p>
+        <p><strong>GET http//:host_ip/api/vin_code</strong>
+        <p>
+        <strong><p>Ответ сервера</strong></p>
+        <p class="p-3 mb-2 bg-success text-white">200 OK</p>
+        <pre><samp>
+        {
+            "auto":
+                {
+                    "car_number": "n12",
+                    "vin_code": "123456789",
+                    "color": "green",
+                    "mark": "toyota",
+                    "year_of_issue": 2002
+                }
+        }
+        </samp></pre>
+
+        <p>Если vin_code в справочнике отсуствует, будет отправлено сообщение об ошибке.</p>
+
+        <p class="p-3 mb-2 bg-secondary text-white">404 Not Found</p>
+        <pre><samp>
+        {
+            "message": "Object with vin_code 11212 not exist"
+        }
+        </samp></pre>
+        <h4>2.3 Добавление автомобиля</h4>
+
+        <p>Для добавления автомобиля в справочник используйте POST-запрос.</p>
+        <p>Обратите внимание, что <strong>поле vin_code обязательно для заполнения.</strong> Остальные поля
+            необязательные.</p>
+
+        <p><strong>Пример:</strong></p>
+        <p><strong>POST http//:host_ip/api/</strong></p>
+        <pre><samp>
+        {
+            "auto":
+            {
+                "car_number": " n12",
+                "vin_code": "123456789", <<<< обязательное поле
+                "color": "green",
+                "mark": "toyota",
+                "year_of_issue": "2002"
+
+            }
+        }
+        </samp></pre>
+
+        <p><strong>Ответ сервера:</strong></p>
+        <p class="p-3 mb-2 bg-success text-white">201 Created
+        <p>
+        <pre><samp>
+        {
+            "message": "auto created successfully"
+        }
+        </samp></pre>
+
+        <p>Если не заполнено поле vin_code</p>
+
+        <p class="p-3 mb-2 bg-secondary text-white">400 Bad Request
+        <p>
+        <pre><samp>
+        {
+            "vin_code": [
+        "This field is required."
+        ],
+        }
+        </samp></pre>
+
+
+        <p>Если автомобиль с таким vin_code уже существует, информация добавлена не будет.</p>
+
+        <p class="p-3 mb-2 bg-secondary text-white">400 Bad Request
+        <p>
+        <pre><samp>
+        {
+            "message": "auto with vin code YOUR_VIN_CODE exists"
+        }
+        </samp></pre>
+
+        <h4>2.4 Удаление автомобиля</h4>
+
+        <p>Для удаления автомобиля используйте DELETE-запрос с vin_code удаляемого автомобиля в
+            JSON-формате.</p>
+
+        <p><strong>DELETE http//:host_ip/api/</strong></p>
+        <pre><samp>
+        {
+            "vin_code": "123456789"
+        }
+        </samp></pre>
+
+        <p><strong>Ответ сервера в случае успешного удаления:</strong></p>
+        <p class="p-3 mb-2 bg-success text-white">204 No Content</p>
+
+        <pre><samp>
+        {
+            "message": "Auto with vin_code `123456789` has been deleted."
+        }
+        </samp></pre>
+
+        <p>Если автомобиля с таким vin_code не существовало, ответ будет следующим.</p>
+        <p class="p-3 mb-2 bg-secondary text-white">404 Not Found</p>
+
+        <pre><samp>
+        {
+            "message": "Auto with vin_code `YOUR_VIN_CODE` not exist."
+        }
+        </samp></pre>
+
+
+        <h4>2.5 Статистика справочника</h4>
+
+        <p>Чтобы получить общую статистику справочника перейдите по ссылке
+            <strong>http://host_ip/api/statistics</strong></p>
+        <p>Или отправьте GET-запрос по этому же адресу.</p>
+
+        <strong>count_auto</strong> - количество авто в справочнике<br>
+        <strong>first_created_object_data</strong> - дата создания первой записи<br>
+        <strong>last_created_object_data</strong> - дата создания последней записи<br>
+        <strong>oldest_car</strong> - самый старый автомобиль в списке<br>
+        <strong>newest_car</strong> - самый новый<br>
+        <strong>auto_without_numbers</strong> - авто, у которых нет номерных знаков<br>
+        <strong>large_mark</strong> - самая многочисленная марка<br>
+        <strong>thin_mark</strong> - самая малочисленная марка<br><br><br>
+
+        <strong><p>Ответ сервера</strong></p>
+        <p class="p-3 mb-2 bg-success text-white">200 OK</p>
+        <pre><samp>
+{
+    "count_auto": 21,
+    "first_created_object_data": "2020-06-09T10:47:33.007240Z",
+    "last_created_object_data": "2020-06-09T11:27:07.724483Z",
+    "oldest_car": 1985,
+    "newest_car": 2020,
+    "auto_without_numbers": 0,
+    "large_mark": "['Renault']",
+    "thin_mark": "['Lada']"
+}
+</samp></pre>
+    </div>
+</div>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+</body>
+>
+</html>
