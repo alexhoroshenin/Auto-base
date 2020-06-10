@@ -210,13 +210,14 @@ thin_mark - самая малочисленная марка
 200 OK
 
 
-{
-    "count_auto": 21,
-    "first_created_object_data": "2020-06-09T10:47:33.007240Z",
-    "last_created_object_data": "2020-06-09T11:27:07.724483Z",
-    "oldest_car": 1985,
-    "newest_car": 2020,
-    "auto_without_numbers": 0,
-    "large_mark": "['Renault']",
-    "thin_mark": "['Lada']"
-}
+        {
+                "count_auto": 21,
+                "first_created_object_data": "2020-06-09T10:47:33.007240Z",
+                "last_created_object_data": "2020-06-09T11:27:07.724483Z",
+                "oldest_car": 1985,
+                "newest_car": 2020,
+                "auto_without_numbers": 0,
+                "large_mark": "['Renault']",
+                "thin_mark": "['Lada']"
+        }
+
