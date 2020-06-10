@@ -160,22 +160,6 @@ class ViewaTest(TestCase):
         self.assertEqual(data.get('count_auto'), 20)
         self.assertEqual(data.get('auto_without_numbers'), 0)
 
-    # def test_get_oldest_and_newest_cars(self):
-    #     pass
-    #     new_auto = Auto(car_number='test', vin_code='vin_code_test4',
-    #                     color='color', mark='mark', year_of_issue=1000
-    #                     )
-    #     new_auto.save()
-    #
-    #     new_auto = Auto(car_number='test', vin_code='vin_code_test4',
-    #                     color='color', mark='mark', year_of_issue=3000
-    #                     )
-    #     new_auto.save()
-    #
-    #     get_oldest_and_newest_cars()
-    #     oldest_car, newest_car = get_oldest_and_newest_cars()
-    #     print(oldest_car, newest_car)
-
 
 def create_random_objects_in_base(count_of_obj):
     population_chars = 'ABCDEKMHOPCTYX'
